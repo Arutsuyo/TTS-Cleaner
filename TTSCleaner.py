@@ -38,7 +38,7 @@ def Clean(s):
     
     # Check for line deletion
     for cdlt in cleanDelete:
-        if cdlt in s:
+        if cdlt.casefold() in s.casefold():
             return ""
 
     # Check for Removals
@@ -122,9 +122,10 @@ def main():
     for book in bookList:
         print(f"- {book}")
     print("")
-    # for book in bookList:
-        # print(f"Cleaning {book}. . .")
-        # CleanBook(cleanPath, book)
+
+    for book in bookList:
+        print(f"Cleaning {book}. . .")
+        CleanBook(cleanPath, book)
 
     print("All clean!")
     return
