@@ -1,0 +1,13 @@
+﻿{
+  "Remove": [
+    "☆",
+    "♪"
+  ],
+  "Replace": {
+      "Heartfyre": "Heart Fire"
+  },
+  "Delete": [
+    "Zerobooks",
+    "Zerobooks.com"
+  ]
+}
