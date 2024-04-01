@@ -1,12 +1,21 @@
 ﻿{
-  "Remove": [
-    "☆",
-    "♪"
-  ],
-  "Replace": {
-      "Heartfyre": "Heart Fire"
-  },
-  "Delete": [
-    "zerobooks.com"
-  ]
+	"CleanerData": {
+		"Remove": [
+			"☆",
+			"♪",
+			"◆",
+			"◇"
+		],
+		"Replace": {
+			"Heartfyre": "Heart Fire"
+		},
+		"Delete": [
+			"zerobooks.com",
+			"mp4directs.com"
+		]
+	},
+	"Operation": {
+		"1": "renameBooks",
+		"2": "CleanBook"
+	}
 }

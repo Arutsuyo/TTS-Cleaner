@@ -8,29 +8,30 @@ import json
 import codecs
 import sys
 
-CleanFileName = 'TextToRemove.txt'
 
-testDir = r'D:\OneDrive\Media\How NOT to summon a demon lord\text'
 
-def GetCleanerLines():
+
+ConfigFileName = 'CleanerConfig.json'
+
+def GetCleanerData():
     # Opening JSON file
-    with codecs.open('CleanerConfig.json', 'r', 'utf-8-sig') as config:
+    with codecs.open(ConfigFileName, 'r', 'utf-8-sig') as config:
         # returns JSON object as 
         # a dictionary
         data = json.load(config)
-        return data
-# End GetCleanerLines()
+        return data["CleanerData"]
+# End GetCleanerData()
 
 def GetFileList(bookPath):
     onlyfiles = [f for f in listdir(bookPath) if isfile(join(bookPath, f))]
-    if CleanFileName in onlyfiles:
+    if ConfigFileName in onlyfiles:
         onlyfiles.remove(CleanFileName)
     return onlyfiles
 # End GetFileList()
 
 def Clean(s):
     
-    cleanConfig = GetCleanerLines()
+    cleanConfig = GetCleanerData()
     
     cleanRemove = cleanConfig["Remove"]
     cleanReplace = cleanConfig["Replace"]
@@ -67,9 +68,18 @@ def CleanBook(bookPath, bookFileName):
 
         for i in range(len(contentLines)):
             contentLines[i] = Clean(contentLines[i])
-
+            
         # Clean empty lines
         contentLines = list(filter(None, contentLines))
+        
+        # Remove extra newlines
+        for i in range(1, len(contentLines)):
+            if contentLines[i] == '\n' and contentLines[i-1] == '\n':
+                contentLines[i-1] = ""
+                
+        # Clean empty lines
+        contentLines = list(filter(None, contentLines))
+        
 
         Path(join(bookPath, "cleaned")).mkdir(parents=True, exist_ok=True)
 
@@ -78,12 +88,11 @@ def CleanBook(bookPath, bookFileName):
             f.writelines(contentLines)
 # End CleanBook()
 
-
 def PrintConfig(bookPath):
     print("Book dir: ")
     print(f"- {bookPath}")
 
-    cleanConfig = GetCleanerLines()
+    cleanConfig = GetCleanerData()
     print("Characters to remove:")
     
     cleanRemove = cleanConfig["Remove"]
@@ -110,11 +119,7 @@ def main():
     """
     Clean some stuff I guess.
     """
-    if len(sys.argv) < 2:
-        cleanPath = input("Path to Text Files: ")
-    else:
-        cleanPath = sys.argv[1]
-
+    cleanPath = input("Path to Text Files: ")
     PrintConfig(cleanPath)
 
     bookList = GetFileList(cleanPath)
